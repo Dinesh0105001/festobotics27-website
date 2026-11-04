@@ -50,7 +50,7 @@
 @media(max-width:650px){.formation-wrap{padding:0 2vw}.letter-glyph{font-size:clamp(16px,5.5vw,34px)}.letter-glyph.special{font-size:clamp(12px,3.8vw,23px)}.bike-rider{transform:scale(.75)}.bike-rider.right{transform:scaleX(-1) scale(.75)}.led-run i{width:6px;height:6px}.led-run.top,.led-run.bottom{left:4%;right:4%}.led-run.left{left:9px}.led-run.right{right:9px}.final-tagline{letter-spacing:.2em}}
 @media(prefers-reduced-motion:reduce){#intro{animation:introFade .4s ease 1.2s forwards}.bike-rider,.bike-rope,.impact-ring,.formation,.burst,.confetti,.led-run{animation:none!important}.formation{opacity:1;transform:none}}
 main{min-height:100vh;background:radial-gradient(ellipse at 50% 0%,#142b50,transparent 55%),#070b18}.nav{padding:22px 6%;display:flex;justify-content:space-between;border-bottom:1px solid #ffffff18}.brand{color:var(--cyan);font-weight:900;letter-spacing:.12em}.nav a{color:#d9e7ff;text-decoration:none}.hero{text-align:center;padding:90px 20px 70px;max-width:1050px;margin:auto}.kicker{color:var(--gold);letter-spacing:.3em;font-size:12px;font-weight:bold}h1{font-size:clamp(42px,8vw,84px);margin:18px 0;text-shadow:0 0 20px #36dfff55}h1 span{color:var(--cyan);text-shadow:0 0 25px #36dfff}.hero p{max-width:650px;margin:0 auto 28px;color:#b9c9e2;line-height:1.7}.cta,button{display:inline-block;border:0;border-radius:30px;padding:15px 28px;background:linear-gradient(90deg,#54eaff,#b2fbff);color:#07101e;font-weight:900;text-decoration:none;cursor:pointer}
-.content{max-width:950px;margin:auto;padding:20px 20px 90px}.panel{background:#101a2e;border:1px solid #3b587b;border-radius:22px;padding:clamp(22px,5vw,42px)}h2{text-align:center;margin:0 0 8px}.sub{text-align:center;color:#aebed5;margin:0 0 28px}form{display:grid;grid-template-columns:1fr 1fr;gap:17px}.field{display:flex;flex-direction:column;gap:8px}.full,button,#status{grid-column:1/-1}label{font-size:13px;color:#c9d8ed;font-weight:bold}input,select{padding:15px;border:1px solid #405675;border-radius:10px;background:#091326;color:white;font-size:15px}input:focus,select:focus{outline:2px solid var(--cyan)}button{border-radius:12px;font-size:16px}#status{text-align:center;min-height:20px;color:#a9f7ce;font-size:14px}footer{text-align:center;color:#7386a3;padding:25px;border-top:1px solid #ffffff12;font-size:13px}
+.content{max-width:950px;margin:auto;padding:20px 20px 90px}.panel{background:#101a2e;border:1px solid #3b587b;border-radius:22px;padding:clamp(22px,5vw,42px)}h2{text-align:center;margin:0 0 8px}.sub{text-align:center;color:#aebed5;margin:0 0 28px}form{display:grid;grid-template-columns:1fr 1fr;gap:17px}.field{display:flex;flex-direction:column;gap:8px}.full,button,#status{grid-column:1/-1}label{font-size:13px;color:#c9d8ed;font-weight:bold}input,select,textarea{padding:15px;border:1px solid #405675;border-radius:10px;background:#091326;color:white;font-size:15px;font-family:inherit}textarea{resize:vertical;min-height:112px;line-height:1.5}textarea:focus{outline:2px solid var(--cyan)}.field-help{font-size:11px;color:#8fa6c5;line-height:1.5}input:focus,select:focus{outline:2px solid var(--cyan)}button{border-radius:12px;font-size:16px}#status{text-align:center;min-height:20px;color:#a9f7ce;font-size:14px}footer{text-align:center;color:#7386a3;padding:25px;border-top:1px solid #ffffff12;font-size:13px}
 
 /* FESTOBOTICS content sections + scroll reveal */
 html{scroll-behavior:smooth;scroll-padding-top:85px}
@@ -225,7 +225,7 @@ input, select, textarea, button { max-width:100%; }
   .field, form > * { min-width:0; }
   .field, .full, form button, #status { grid-column:1; }
   label { font-size:13px; }
-  input, select { display:block; width:100%; min-width:0; padding:14px 12px; font-size:16px; }
+  input, select, textarea { display:block; width:100%; min-width:0; padding:14px 12px; font-size:16px; }
   form button { width:100%; min-height:49px; padding:14px 12px; font-size:14px; white-space:normal; }
   .form-note { font-size:11px; }
   .event-dialog { padding:9px; align-items:center; }
@@ -267,6 +267,16 @@ input, select, textarea, button { max-width:100%; }
   .info-card:hover { transform:none; box-shadow:0 12px 35px #0003; }
 }
 
+
+.member-section{background:#0b172b;border:1px solid #304866;border-radius:14px;padding:16px;min-width:0}
+.member-section-heading{display:flex;flex-direction:column;gap:5px;margin-bottom:12px}
+.member-list{display:grid;grid-template-columns:1fr;gap:12px}
+.member-card{border:1px solid #354f70;background:#111f36;border-radius:12px;padding:14px;min-width:0}
+.member-card h4{margin:0 0 12px;color:#62f3ff;font-size:14px;letter-spacing:.03em}
+.member-card-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;min-width:0}
+.member-card-grid .field{min-width:0}
+.member-card input{width:100%;min-width:0}
+@media(max-width:650px){.member-card-grid{grid-template-columns:1fr;gap:10px}.member-card{padding:12px}.member-section{padding:12px}}
 </style></head><body>
 <div id="intro" aria-label="FESTOBOTICS 27 Tamil cultural welcome intro">
   <div class="intro-grid"></div>
@@ -292,32 +302,37 @@ input, select, textarea, button { max-width:100%; }
   <div class="spark-field" id="sparkField" aria-hidden="true"></div>
 </div>
 <main><nav class="nav"><div class="brand">FESTOBOTICS ’27</div><div class="navlinks"><a href="#about">ABOUT</a><a href="#events">EVENTS</a><a href="#schedule">SCHEDULE</a><a href="#prizes">PRIZES</a><a href="#rules">RULES</a><a href="#contact">CONTACT</a><a href="#register">REGISTER ↗</a></div></nav>
-<header class="hero"><div class="kicker">ROBOTICS • TECHNOLOGY • INNOVATION</div><h1>Build. Create.<br><span>Innovate.</span></h1><p>Step into a world of ideas, robotics and technology. Join us at FESTOBOTICS ’27 and be part of the next wave of innovation.</p><a class="cta" href="#register">JOIN THE FESTIVAL</a></header>
-<section class="section section-alt" id="about"><div class="section-heading reveal"><div class="eyebrow">The vision</div><h2>About FESTOBOTICS ’27</h2><p>FESTOBOTICS ’27 is a celebration of robotics, engineering, creativity and emerging technology. A platform for curious minds to learn, build, compete and turn bold ideas into real-world innovations.</p></div><div class="cards"><article class="info-card reveal delay-1"><div class="emoji">🤖</div><h3>Explore Robotics</h3><p>Discover how robots, sensors and smart systems can solve real challenges.</p></article><article class="info-card reveal delay-2"><div class="emoji">⚡</div><h3>Show Your Skills</h3><p>Put your creativity, technical knowledge and teamwork to the test.</p></article><article class="info-card reveal delay-3"><div class="emoji">🚀</div><h3>Innovate Together</h3><p>Connect with fellow students, exchange ideas and build a brighter future.</p></article></div></section>
-<section class="section" id="events"><div class="section-heading reveal"><div class="eyebrow">Compete • Create • Conquer</div><h2>Events & Competitions</h2><p>Choose an event to view its rules and regulations. Tap any event card for details.</p></div><div class="cards">
+<header class="hero"><div class="kicker" id="heroKicker">ROBOTICS • TECHNOLOGY • INNOVATION</div><h1><span id="heroLine1" style="display:inline;color:inherit">Build. Create.</span><br><span id="heroLine2">Innovate.</span></h1><p id="heroDescription">Step into a world of ideas, robotics and technology. Join us at FESTOBOTICS ’27 and be part of the next wave of innovation.</p><a class="cta" href="#register">JOIN THE FESTIVAL</a></header>
+<section class="section section-alt" id="about"><div class="section-heading reveal"><div class="eyebrow">The vision</div><h2 id="aboutHeading">About FESTOBOTICS ’27</h2><p id="aboutText">FESTOBOTICS ’27 is a celebration of robotics, engineering, creativity and emerging technology. A platform for curious minds to learn, build, compete and turn bold ideas into real-world innovations.</p></div><div class="cards"><article class="info-card reveal delay-1"><div class="emoji">🤖</div><h3 id="aboutCard1Title">Explore Robotics</h3><p id="aboutCard1Text">Discover how robots, sensors and smart systems can solve real challenges.</p></article><article class="info-card reveal delay-2"><div class="emoji">⚡</div><h3 id="aboutCard2Title">Show Your Skills</h3><p id="aboutCard2Text">Put your creativity, technical knowledge and teamwork to the test.</p></article><article class="info-card reveal delay-3"><div class="emoji">🚀</div><h3 id="aboutCard3Title">Innovate Together</h3><p id="aboutCard3Text">Connect with fellow students, exchange ideas and build a brighter future.</p></article></div></section>
+<section class="section" id="events"><div class="section-heading reveal"><div class="eyebrow">Compete • Create • Conquer</div><h2>Events & Competitions</h2><p id="eventIntro">Choose an event to view its rules and regulations. Tap any event card for details.</p></div><div class="cards">
 <div class="event-group-title reveal">Project Challenges</div>
-<article class="info-card event-card reveal" role="button" tabindex="0" data-event="tug"><div class="emoji">🪢</div><h3>Tug of War</h3><p>Team strategy, control and pulling power.</p><span class="click-hint">VIEW RULES ↗</span></article>
-<article class="info-card event-card reveal delay-1" role="button" tabindex="0" data-event="sumo"><div class="emoji">🤖</div><h3>Sumo</h3><p>Robot-versus-robot challenge in the arena.</p><span class="click-hint">VIEW RULES ↗</span></article>
-<article class="info-card event-card reveal delay-2" role="button" tabindex="0" data-event="mud"><div class="emoji">🏁</div><h3>Mud Race</h3><p>Take on a challenging terrain course.</p><span class="click-hint">VIEW RULES ↗</span></article>
+<article class="info-card event-card reveal" role="button" tabindex="0" data-event="tug"><div class="emoji">🪢</div><h3 id="event-tug-title">Tug of War</h3><p id="event-tug-desc">Team strategy, control and pulling power.</p><span class="click-hint">VIEW RULES ↗</span></article>
+<article class="info-card event-card reveal delay-1" role="button" tabindex="0" data-event="sumo"><div class="emoji">🤖</div><h3 id="event-sumo-title">Sumo</h3><p id="event-sumo-desc">Robot-versus-robot challenge in the arena.</p><span class="click-hint">VIEW RULES ↗</span></article>
+<article class="info-card event-card reveal delay-2" role="button" tabindex="0" data-event="mud"><div class="emoji">🏁</div><h3 id="event-mud-title">Mud Race</h3><p id="event-mud-desc">Take on a challenging terrain course.</p><span class="click-hint">VIEW RULES ↗</span></article>
 <div class="event-group-title reveal">Project Expo</div>
-<article class="info-card event-card reveal" role="button" tabindex="0" data-event="open"><div class="emoji">💡</div><h3>Open Innovation</h3><p>Present an original idea, prototype or technology-based innovation.</p><span class="click-hint">VIEW RULES ↗</span></article>
-<article class="info-card event-card reveal delay-1" role="button" tabindex="0" data-event="problem"><div class="emoji">🧩</div><h3>Problem–Solution Innovation</h3><p>Identify a real-world problem and demonstrate your innovative solution.</p><span class="click-hint">VIEW RULES ↗</span></article>
+<article class="info-card event-card reveal" role="button" tabindex="0" data-event="open"><div class="emoji">💡</div><h3 id="event-open-title">Open Innovation</h3><p id="event-open-desc">Present an original idea, prototype or technology-based innovation.</p><span class="click-hint">VIEW RULES ↗</span></article>
+<article class="info-card event-card reveal delay-1" role="button" tabindex="0" data-event="problem"><div class="emoji">🧩</div><h3 id="event-problem-title">Problem–Solution Innovation</h3><p id="event-problem-desc">Identify a real-world problem and demonstrate your innovative solution.</p><span class="click-hint">VIEW RULES ↗</span></article>
 </div></section>
 <div class="event-dialog" id="eventDialog" role="dialog" aria-modal="true" aria-labelledby="eventDialogTitle"><div class="event-dialog-panel"><div class="event-dialog-top"><div><div class="dialog-kicker" id="eventDialogKicker">Event rules</div><h3 id="eventDialogTitle">Event</h3></div><button class="dialog-close" type="button" aria-label="Close rules">×</button></div><div id="eventDialogBody"></div></div></div>
-<section class="section section-alt" id="schedule"><div class="section-heading reveal"><div class="eyebrow">Mark your calendar</div><h2>Event Date, Time & Venue</h2><p>Official schedule details will be announced by the organising team.</p></div><div class="details-grid"><div class="detail reveal"><small>EVENT DATE</small><strong>To be announced</strong></div><div class="detail reveal delay-1"><small>EVENT TIME</small><strong>To be announced</strong></div><div class="detail reveal delay-2"><small>VENUE</small><strong>To be announced</strong></div></div></section>
-<section class="section" id="prizes"><div class="section-heading reveal"><div class="eyebrow">Celebrate achievement</div><h2>Prizes & Certificates</h2><p>Recognising creativity, teamwork and technical excellence.</p></div><div class="prize-strip"><div class="prize reveal"><div class="emoji">🥇</div><b>1st Prize</b><span>Prize details to be announced</span></div><div class="prize reveal delay-1"><div class="emoji">🥈</div><b>2nd Prize</b><span>Prize details to be announced</span></div><div class="prize reveal delay-2"><div class="emoji">🏅</div><b>Participation</b><span>Certificates for eligible participants</span></div></div></section>
-<section class="section section-alt" id="rules"><div class="section-heading reveal"><div class="eyebrow">Play fair • Stay safe</div><h2>Rules & Regulations</h2><p>General guidelines for all participants. Event-specific rules will be shared by the organisers.</p></div><div class="rules"><div class="rule reveal"><em>01</em><span>Participants must complete the registration form with accurate details.</span></div><div class="rule reveal delay-1"><em>02</em><span>Carry your valid school or college ID card on the event day.</span></div><div class="rule reveal delay-2"><em>03</em><span>Follow the instructions given by event coordinators and judges.</span></div><div class="rule reveal"><em>04</em><span>Maintain discipline and handle equipment, tools and venue property responsibly.</span></div><div class="rule reveal delay-1"><em>05</em><span>Use of unsafe, hazardous or prohibited materials is not allowed.</span></div><div class="rule reveal delay-2"><em>06</em><span>The organisers' decision regarding event conduct and results will be final.</span></div></div></section>
-<section class="section" id="contact"><div class="section-heading reveal"><div class="eyebrow">We are here to help</div><h2>Contact the Organisers</h2><p>For registration, event and participation queries, contact the FESTOBOTICS organising team.</p></div><div class="contact-grid"><div class="contact-card reveal"><div class="emoji">📞</div><strong>Phone / WhatsApp</strong><span>Contact number to be added</span></div><div class="contact-card reveal delay-1"><div class="emoji">✉️</div><strong>Email</strong><span>Email address to be added</span></div><div class="contact-card reveal delay-2"><div class="emoji">📍</div><strong>Venue</strong><span>Venue address to be announced</span></div></div></section>
+<section class="section section-alt" id="schedule"><div class="section-heading reveal"><div class="eyebrow">Mark your calendar</div><h2>Event Date, Time & Venue</h2><p id="scheduleIntro">Official schedule details will be announced by the organising team.</p></div><div class="details-grid"><div class="detail reveal"><small>EVENT DATE</small><strong id="eventDate">To be announced</strong></div><div class="detail reveal delay-1"><small>EVENT TIME</small><strong id="eventTime">To be announced</strong></div><div class="detail reveal delay-2"><small>VENUE</small><strong id="eventVenue">To be announced</strong></div></div></section>
+<section class="section" id="prizes"><div class="section-heading reveal"><div class="eyebrow">Celebrate achievement</div><h2>Prizes & Certificates</h2><p id="prizesIntro">Recognising creativity, teamwork and technical excellence.</p></div><div class="prize-strip"><div class="prize reveal"><div class="emoji">🥇</div><b id="firstPrizeTitle">1st Prize</b><span id="firstPrizeText">Prize details to be announced</span></div><div class="prize reveal delay-1"><div class="emoji">🥈</div><b id="secondPrizeTitle">2nd Prize</b><span id="secondPrizeText">Prize details to be announced</span></div><div class="prize reveal delay-2"><div class="emoji">🏅</div><b id="participationTitle">Participation</b><span id="participationText">Certificates for eligible participants</span></div></div></section>
+<section class="section section-alt" id="rules"><div class="section-heading reveal"><div class="eyebrow">Play fair • Stay safe</div><h2>Rules & Regulations</h2><p id="generalRulesIntro">General guidelines for all participants. Event-specific rules will be shared by the organisers.</p></div><div class="rules"><div class="rule reveal"><em>01</em><span id="generalRule1">Participants must complete the registration form with accurate details.</span></div><div class="rule reveal delay-1"><em>02</em><span id="generalRule2">Carry your valid school or college ID card on the event day.</span></div><div class="rule reveal delay-2"><em>03</em><span id="generalRule3">Follow the instructions given by event coordinators and judges.</span></div><div class="rule reveal"><em>04</em><span id="generalRule4">Maintain discipline and handle equipment, tools and venue property responsibly.</span></div><div class="rule reveal delay-1"><em>05</em><span id="generalRule5">Use of unsafe, hazardous or prohibited materials is not allowed.</span></div><div class="rule reveal delay-2"><em>06</em><span id="generalRule6">The organisers' decision regarding event conduct and results will be final.</span></div></div></section>
+<section class="section" id="contact"><div class="section-heading reveal"><div class="eyebrow">We are here to help</div><h2>Contact the Organisers</h2><p id="contactIntro">For registration, event and participation queries, contact the FESTOBOTICS organising team.</p></div><div class="contact-grid"><div class="contact-card reveal"><div class="emoji">📞</div><strong>Phone / WhatsApp</strong><span id="contactPhone">Contact number to be added</span></div><div class="contact-card reveal delay-1"><div class="emoji">✉️</div><strong>Email</strong><span id="contactEmail">Email address to be added</span></div><div class="contact-card reveal delay-2"><div class="emoji">📍</div><strong>Venue</strong><span id="contactVenue">Venue address to be announced</span></div></div></section>
 <section class="content" id="register"><div class="panel reveal"><h2>Participant Registration</h2><p class="sub">Complete all required details to register for FESTOBOTICS ’27.</p>
 <form id="registrationForm" action="https://script.google.com/macros/s/AKfycbzWGmT07Jv104hymK3Juuj2Ay61wCbA6xYSNuM2GSIwAXtadLJQUKdeccyQgLRB9xBMkQ/exec" method="POST" target="submitFrame">
-<div class="field"><label for="name">Full Name</label><input id="name" name="name" placeholder="Enter your full name" required></div>
-<div class="field"><label for="mobile">Mobile Number</label><input id="mobile" name="mobile" type="tel" inputmode="numeric" pattern="[0-9]{10}" maxlength="10" placeholder="10-digit mobile number" required></div>
-<div class="field"><label for="email">Email Address</label><input id="email" name="email" type="email" placeholder="you@example.com" required></div>
 <div class="field"><label for="institution">School / College Name</label><input id="institution" name="institution" placeholder="Enter school or college name" required></div>
-<div class="field"><label for="grade">Class / Grade / Year</label><input id="grade" name="grade" placeholder="Example: Grade 10 / 1st Year" required></div>
 <div class="field"><label for="participantType">Participant Category</label><select id="participantType" name="participantType" required><option value="">Select category</option><option>School Student</option><option>College Student</option><option>Other</option></select></div>
 <div class="field"><label for="eventChoice">Interested Event</label><select id="eventChoice" name="eventChoice" required><option value="">Select an event</option><option>Tug of War</option><option>Sumo</option><option>Mud Race</option><option>Open Innovation (Project Expo)</option><option>Problem–Solution Innovation (Project Expo)</option><option>More than one / Not decided</option></select></div>
-<p class="form-note full">Please check your mobile number and email before submitting. The event team may contact you using these details.</p>
+<div class="field"><label for="teamName">Team Name</label><input id="teamName" name="teamName" placeholder="Enter your team name" required></div>
+<div class="field"><label for="memberCount">Number of Team Members</label><select id="memberCount" name="memberCount" required><option value="">Select number of members</option><option value="1">1 Member</option><option value="2">2 Members</option><option value="3">3 Members</option><option value="4">4 Members</option><option value="5">5 Members</option><option value="6">6 Members</option><option value="7">7 Members</option><option value="8">8 Members</option><option value="9">9 Members</option><option value="10">10 Members</option></select></div>
+<input type="hidden" id="name" name="name"><input type="hidden" id="mobile" name="mobile"><input type="hidden" id="email" name="email"><input type="hidden" id="grade" name="grade">
+<input type="hidden" id="teamMembers" name="teamMembers"><input type="hidden" id="teamMemberDetails" name="teamMemberDetails">
+<div class="field full member-section">
+  <div class="member-section-heading"><label>Team Member Details</label><small class="field-help">Select the number of team members. Separate detail boxes will appear for every member, including Member 1.</small></div>
+  <div id="teamMemberFields" class="member-list" aria-live="polite"><p class="field-help">Please select the number of team members to display their details.</p></div>
+  <small class="field-help">Enter each member's own full name, email ID, 10-digit mobile number and class / grade / year. Member 1 will be treated as the team leader / primary contact.</small>
+</div>
+<p class="form-note full">Please enter a valid individual email ID and mobile number for every team member. The selected member count must match the details you provide.</p>
 <button id="submitBtn" type="submit">SUBMIT REGISTRATION</button><div id="status" role="status" aria-live="polite"></div></form>
 <iframe name="submitFrame" id="submitFrame" style="display:none" title="Registration submission"></iframe></div></section><footer>© 2027 FESTOBOTICS. All rights reserved.</footer></main>
 <script>
@@ -373,7 +388,85 @@ eventDialog.querySelector('.dialog-close').addEventListener('click',closeEventRu
 eventDialog.addEventListener('click',e=>{if(e.target===eventDialog)closeEventRules()});
 document.addEventListener('keydown',e=>{if(e.key==='Escape'&&eventDialog.classList.contains('open'))closeEventRules()});
 
+// Load editable page content from the protected Apps Script content store.
+// Content is applied with textContent; event rule text is HTML-escaped before display.
+function safeRuleMarkup(text){
+  const esc=v=>String(v).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  const lines=String(text||'').split(/\r?\n/).map(v=>v.trim()).filter(Boolean);
+  if(!lines.length)return '<p>Rules will be announced by the organisers.</p>';
+  return '<ul>'+lines.map(line=>'<li>'+esc(line)+'</li>').join('')+'</ul>';
+}
+function applyFestoContent(data){
+  if(!data||typeof data!=='object')return;
+  const set=(id,value)=>{const el=document.getElementById(id);if(el&&value!==undefined&&value!==null)el.textContent=String(value)};
+  ['heroKicker','heroLine1','heroLine2','heroDescription','aboutHeading','aboutText','eventIntro','scheduleIntro','eventDate','eventTime','eventVenue','prizesIntro','firstPrizeTitle','firstPrizeText','secondPrizeTitle','secondPrizeText','participationTitle','participationText','generalRulesIntro','contactIntro','contactPhone','contactEmail','contactVenue'].forEach(k=>set(k,data[k]));
+  (data.aboutCards||[]).forEach((v,i)=>{set('aboutCard'+(i+1)+'Title',v.title);set('aboutCard'+(i+1)+'Text',v.text)});
+  const schedule=data.schedule||{};set('scheduleIntro',schedule.intro);set('eventDate',schedule.date);set('eventTime',schedule.time);set('eventVenue',schedule.venue);
+  const prizes=data.prizes||{};set('prizesIntro',prizes.intro);set('firstPrizeTitle',prizes.firstTitle);set('firstPrizeText',prizes.firstText);set('secondPrizeTitle',prizes.secondTitle);set('secondPrizeText',prizes.secondText);set('participationTitle',prizes.participationTitle);set('participationText',prizes.participationText);
+  const contact=data.contact||{};set('contactIntro',contact.intro);set('contactPhone',contact.phone);set('contactEmail',contact.email);set('contactVenue',contact.venue);
+  (data.generalRules||[]).forEach((v,i)=>set('generalRule'+(i+1),v));
+  const events=data.events||{};
+  Object.keys(events).forEach(key=>{
+    const item=events[key]||{},card=document.querySelector('[data-event="'+key+'"]');
+    if(card){const h=card.querySelector('h3'),p=card.querySelector('p');if(h&&item.title)h.textContent=item.title;if(p&&item.description!==undefined)p.textContent=item.description;}
+    if(typeof eventRules!=='undefined'&&eventRules[key]){eventRules[key].title=item.title||eventRules[key].title;eventRules[key].body=safeRuleMarkup(item.rules||'');}
+  });
+}
+window.festoContentCallback=applyFestoContent;
+(function loadFestoEditableContent(){
+  const script=document.createElement('script');
+  script.src='https://script.google.com/macros/s/AKfycbzWGmT07Jv104hymK3Juuj2Ay61wCbA6xYSNuM2GSIwAXtadLJQUKdeccyQgLRB9xBMkQ/exec?action=content&callback=festoContentCallback&_='+Date.now();
+  script.async=true;script.onerror=()=>console.warn('FESTOBOTICS editable content could not be loaded; default page content is shown.');
+  document.head.appendChild(script);
+})();
+
 const form=document.getElementById('registrationForm'),frame=document.getElementById('submitFrame'),statusBox=document.getElementById('status'),btn=document.getElementById('submitBtn');let waiting=false;
-form.addEventListener('submit',()=>{if(!form.reportValidity())return;waiting=true;btn.disabled=true;btn.textContent='SUBMITTING...';statusBox.textContent='Submitting your registration…';setTimeout(()=>{if(waiting){statusBox.textContent='Please confirm your registration with the event team if your details do not appear in the sheet.';btn.disabled=false;btn.textContent='SUBMIT REGISTRATION';waiting=false}},8000)});
-frame.addEventListener('load',()=>{if(!waiting)return;waiting=false;statusBox.textContent='Your registration has been submitted. Thank you!';btn.disabled=false;btn.textContent='SUBMIT REGISTRATION';form.reset()});
+const memberCountSelect=document.getElementById('memberCount');
+const memberFields=document.getElementById('teamMemberFields');
+function renderTeamMemberFields(){
+  const count=Number(memberCountSelect.value||0);
+  memberFields.innerHTML='';
+  if(!count){
+    memberFields.innerHTML='<p class="field-help">Please select the number of team members to display their details.</p>';
+    return;
+  }
+  for(let n=1;n<=count;n++){
+    const card=document.createElement('section');
+    card.className='member-card';
+    card.innerHTML=`<h4>TEAM MEMBER ${n}${n===1?' • TEAM LEADER':''}</h4>
+      <div class="member-card-grid">
+        <div class="field"><label for="member${n}Name">Full Name</label><input id="member${n}Name" name="member${n}Name" type="text" autocomplete="name" placeholder="Member ${n} full name" required></div>
+        <div class="field"><label for="member${n}Email">Email ID</label><input id="member${n}Email" name="member${n}Email" type="email" autocomplete="email" placeholder="Member ${n} email address" required></div>
+        <div class="field"><label for="member${n}Mobile">Mobile Number</label><input id="member${n}Mobile" name="member${n}Mobile" type="tel" inputmode="numeric" pattern="[0-9]{10}" maxlength="10" autocomplete="tel" placeholder="10-digit mobile number" required></div>
+        <div class="field"><label for="member${n}Grade">Class / Grade / Year</label><input id="member${n}Grade" name="member${n}Grade" type="text" placeholder="Example: Grade 10 / 1st Year" required></div>
+      </div>`;
+    memberFields.appendChild(card);
+  }
+}
+memberCountSelect.addEventListener('change',renderTeamMemberFields);
+renderTeamMemberFields();
+form.addEventListener('submit',(event)=>{
+  if(!form.reportValidity()){event.preventDefault();return;}
+  const expected=Number(memberCountSelect.value);
+  if(!expected){event.preventDefault();statusBox.textContent='Please select the number of team members.';return;}
+  const members=[];
+  for(let n=1;n<=expected;n++){
+    members.push({
+      name:document.getElementById(`member${n}Name`).value.trim(),
+      email:document.getElementById(`member${n}Email`).value.trim(),
+      mobile:document.getElementById(`member${n}Mobile`).value.trim(),
+      grade:document.getElementById(`member${n}Grade`).value.trim()
+    });
+  }
+  // Keep legacy main fields populated for compatibility with existing sheet columns.
+  document.getElementById('name').value=members[0].name;
+  document.getElementById('email').value=members[0].email;
+  document.getElementById('mobile').value=members[0].mobile;
+  document.getElementById('grade').value=members[0].grade;
+  document.getElementById('teamMembers').value=members.map(m=>m.name).join('\n');
+  document.getElementById('teamMemberDetails').value=JSON.stringify(members);
+  waiting=true;btn.disabled=true;btn.textContent='SUBMITTING...';statusBox.textContent='Submitting your team registration…';
+  setTimeout(()=>{if(waiting){statusBox.textContent='Please confirm your registration with the event team if your details do not appear in the sheet.';btn.disabled=false;btn.textContent='SUBMIT REGISTRATION';waiting=false}},10000)
+});
+frame.addEventListener('load',()=>{if(!waiting)return;waiting=false;statusBox.textContent='Your team registration has been submitted. Thank you!';btn.disabled=false;btn.textContent='SUBMIT REGISTRATION';form.reset();renderTeamMemberFields()});
 </script></body></html>
