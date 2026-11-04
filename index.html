@@ -1,0 +1,379 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>FESTOBOTICS '27</title>
+<style>
+:root{--cyan:#62f3ff;--gold:#ffd76a;--pink:#ff70c8}*{box-sizing:border-box}body{margin:0;background:#070b18;color:#f4f8ff;font-family:Arial, sans-serif}
+
+#intro{position:fixed;inset:0;z-index:50;background:#02040b;overflow:hidden;display:flex;align-items:center;justify-content:center;opacity:1;visibility:visible;animation:introFade .55s ease 7.45s forwards;isolation:isolate}
+#intro:before{content:"";position:absolute;inset:0;background:radial-gradient(ellipse at 50% 48%,#102c4a 0%,#071020 45%,#02040b 80%);animation:stagePulse 2s ease-in-out infinite alternate}
+#intro:after{content:"";position:absolute;inset:0;pointer-events:none;background:radial-gradient(ellipse at center,transparent 35%,#0009 100%);z-index:30}
+.intro-grid{position:absolute;inset:0;opacity:.2;background-image:linear-gradient(#2c78a522 1px,transparent 1px),linear-gradient(90deg,#2c78a522 1px,transparent 1px);background-size:48px 48px;mask-image:radial-gradient(ellipse at center,#000,transparent 75%)}
+.corner-lights{position:absolute;inset:0;z-index:35;pointer-events:none}
+.led-run{position:absolute;display:flex;gap:9px;filter:brightness(1.2);animation:ledRun .7s linear infinite}
+.led-run i{width:8px;height:8px;border-radius:50%;background:var(--led);box-shadow:0 0 7px 2px var(--led),0 0 18px var(--led);opacity:.85;animation:ledPulse .35s ease-in-out infinite alternate;animation-delay:calc(var(--n)*-.06s)}
+.led-run.top,.led-run.bottom{left:2.5%;right:2.5%;justify-content:space-between}.led-run.top{top:22px}.led-run.bottom{bottom:22px}.led-run.left,.led-run.right{top:4%;bottom:4%;flex-direction:column;justify-content:space-between}.led-run.left{left:20px}.led-run.right{right:20px}
+.led-run i:nth-child(4n+1){--led:#ff4d8d}.led-run i:nth-child(4n+2){--led:#53eaff}.led-run i:nth-child(4n+3){--led:#ffe36e}.led-run i:nth-child(4n){--led:#a77bff}
+.formation-wrap{position:relative;z-index:12;width:100%;display:flex;justify-content:center;align-items:center;padding:0 3vw}
+.formation{display:flex;align-items:center;justify-content:center;gap:clamp(1px,.18vw,4px);white-space:nowrap;max-width:100%;opacity:0;transform:translateY(-3vh) scale(.72);filter:drop-shadow(0 0 0 transparent);animation:titlePull .75s cubic-bezier(.12,.85,.2,1) 1.72s forwards}
+.letter-slot{position:relative;display:flex;align-items:center;justify-content:center;flex:0 1 auto;min-width:0}
+.letter-glyph{display:block;position:relative;z-index:2;font-family:Arial,sans-serif;font-size:clamp(19px,5.25vw,76px);font-weight:1000;line-height:1;letter-spacing:-.055em;color:#f5fbff;text-shadow:0 1px 0 #fff,0 3px 0 #a6d4e7,0 5px 0 #376b91,0 8px 16px #000,0 0 12px var(--glow),0 0 28px var(--glow),0 0 48px #278bff}
+.letter-slot:nth-child(4n+1){--glow:#ff4d8d}.letter-slot:nth-child(4n+2){--glow:#45eaff}.letter-slot:nth-child(4n+3){--glow:#ffd45a}.letter-slot:nth-child(4n){--glow:#a77bff}
+.letter-glyph.special{font-size:clamp(15px,3.9vw,56px);margin:0 .04em}
+.bike-rider{position:absolute;z-index:16;width:100px;height:82px;opacity:0;filter:drop-shadow(0 0 12px #42eaff);pointer-events:none}
+.bike-rider.left{left:-140px;top:calc(50% - 105px);animation:bikeInLeft 1.55s cubic-bezier(.18,.72,.22,1) .18s forwards,bikeOutLeft .85s cubic-bezier(.5,0,.9,.35) 3.55s forwards}
+.bike-rider.right{right:-140px;top:calc(50% + 28px);transform:scaleX(-1);animation:bikeInRight 1.55s cubic-bezier(.18,.72,.22,1) .18s forwards,bikeOutRight .85s cubic-bezier(.5,0,.9,.35) 3.55s forwards}
+.bike-rider:before{content:"";position:absolute;left:8px;right:8px;top:49px;height:3px;background:linear-gradient(90deg,transparent,#52f4ff,#fff,#52f4ff,transparent);box-shadow:0 0 12px #52f4ff}
+.bike-wheel{position:absolute;bottom:0;width:30px;height:30px;border:4px solid #60f2ff;border-radius:50%;box-shadow:0 0 12px #42eaff,inset 0 0 8px #42eaff;animation:wheelSpin .28s linear infinite}
+.bike-wheel.w1{left:8px}.bike-wheel.w2{right:8px}
+.bike-frame{position:absolute;left:20px;top:34px;width:62px;height:25px;border:3px solid #75f7ff;border-top:0;transform:skewX(-24deg);filter:drop-shadow(0 0 5px #42eaff)}
+.bike-body{position:absolute;left:39px;top:20px;width:29px;height:24px;border-radius:10px 10px 5px 5px;background:linear-gradient(145deg,#e6ffff,#36a8d2 55%,#173d68);border:2px solid #b8fbff}
+.bike-head{position:absolute;left:46px;top:1px;width:24px;height:23px;border-radius:8px;background:linear-gradient(145deg,#e8ffff,#5a9fbe 50%,#193858);border:2px solid #b7fbff;box-shadow:0 0 12px #57edff}
+.bike-head:after{content:"";position:absolute;left:4px;right:4px;top:8px;height:4px;background:#fff;box-shadow:0 0 8px #fff}
+.bike-rope{position:absolute;z-index:14;height:3px;width:40vw;top:50%;background:linear-gradient(90deg,#fff,#4cefff,transparent);box-shadow:0 0 9px #4cefff;opacity:0;transform-origin:left center}
+.bike-rope.left{left:8%;transform:rotate(-7deg);animation:ropePullLeft 1.45s ease .55s forwards}
+.bike-rope.right{right:8%;transform:rotate(187deg);animation:ropePullRight 1.45s ease .55s forwards}
+.impact-ring{position:absolute;z-index:13;width:15vw;height:15vw;max-width:180px;max-height:180px;border:3px solid #a8faff;border-radius:50%;opacity:0;pointer-events:none;box-shadow:0 0 24px #4cefff,inset 0 0 24px #4cefff;animation:impact .65s ease 2.38s both}
+.spark-field{position:absolute;inset:0;z-index:18;pointer-events:none;opacity:0}.celebration .spark-field{opacity:1}
+.burst{position:absolute;width:12px;height:12px;border-radius:50%;opacity:0;transform:scale(.1);background:radial-gradient(circle,#fff 0 8%,#ffe98b 12% 18%,transparent 22%);filter:drop-shadow(0 0 8px #ffd65b)}
+.burst:before{content:"";position:absolute;inset:-48px;border-radius:50%;background:repeating-conic-gradient(from 0deg,#fff4b0 0 1.7deg,transparent 2deg 14deg,#ff70b8 14.5deg 16deg,transparent 16.5deg 28deg);mask:radial-gradient(circle,transparent 0 15%,#000 18% 24%,transparent 27%)}
+.burst:after{content:"";position:absolute;inset:-24px;border-radius:50%;background:repeating-conic-gradient(#56eaff 0 2deg,transparent 3deg 30deg);mask:radial-gradient(circle,transparent 0 25%,#000 28% 35%,transparent 38%)}
+.celebration .burst{animation:fireBurst 1.05s ease-out var(--delay) 2}
+.confetti{position:absolute;top:-12px;left:var(--x);width:7px;height:12px;background:var(--c);opacity:0;transform:rotate(var(--r))}.celebration .confetti{animation:confettiFall 2.1s ease-in var(--delay) forwards}
+.final-tagline{position:absolute;z-index:14;top:calc(50% + clamp(42px,7vw,85px));left:0;width:100%;text-align:center;color:#b6f8ff;font-size:clamp(9px,1.2vw,14px);font-weight:800;letter-spacing:.42em;opacity:0;text-shadow:0 0 15px #42eaff;animation:taglineIn .45s ease 3.05s forwards}
+@keyframes stagePulse{to{filter:brightness(1.35)}}@keyframes ledRun{to{transform:translateX(8px)}}@keyframes ledPulse{to{opacity:1;filter:brightness(2.4)}}
+@keyframes titlePull{0%{opacity:0;transform:translateY(-3vh) scale(.72);filter:blur(8px)}70%{opacity:1;transform:translateY(0) scale(1.045);filter:blur(0)}100%{opacity:1;transform:translateY(0) scale(1);filter:drop-shadow(0 0 18px #42eaff)}}
+@keyframes bikeInLeft{0%{opacity:0;left:-140px}12%{opacity:1}100%{opacity:1;left:calc(50% - 210px)}}@keyframes bikeInRight{0%{opacity:0;right:-140px}12%{opacity:1}100%{opacity:1;right:calc(50% - 210px)}}
+@keyframes bikeOutLeft{to{opacity:0;left:-180px}}@keyframes bikeOutRight{to{opacity:0;right:-180px}}@keyframes wheelSpin{to{transform:rotate(360deg)}}
+@keyframes ropePullLeft{0%{opacity:0;transform:translateX(-15vw) rotate(-7deg)}25%{opacity:1}100%{opacity:0;transform:translateX(18vw) rotate(0)}}@keyframes ropePullRight{0%{opacity:0;transform:translateX(15vw) rotate(187deg)}25%{opacity:1}100%{opacity:0;transform:translateX(-18vw) rotate(180deg)}}
+@keyframes impact{0%{opacity:0;transform:scale(.2)}25%{opacity:1}100%{opacity:0;transform:scale(2.3)}}@keyframes fireBurst{0%{opacity:0;transform:scale(.08)}18%{opacity:1}100%{opacity:0;transform:scale(2.7)}}
+@keyframes confettiFall{0%{opacity:0;transform:translateY(0) rotate(0)}10%{opacity:1}100%{opacity:0;transform:translateY(110vh) rotate(780deg)}}@keyframes taglineIn{to{opacity:1}}@keyframes introFade{to{opacity:0;visibility:hidden;pointer-events:none}}
+@media(max-width:650px){.formation-wrap{padding:0 2vw}.letter-glyph{font-size:clamp(16px,5.5vw,34px)}.letter-glyph.special{font-size:clamp(12px,3.8vw,23px)}.bike-rider{transform:scale(.75)}.bike-rider.right{transform:scaleX(-1) scale(.75)}.led-run i{width:6px;height:6px}.led-run.top,.led-run.bottom{left:4%;right:4%}.led-run.left{left:9px}.led-run.right{right:9px}.final-tagline{letter-spacing:.2em}}
+@media(prefers-reduced-motion:reduce){#intro{animation:introFade .4s ease 1.2s forwards}.bike-rider,.bike-rope,.impact-ring,.formation,.burst,.confetti,.led-run{animation:none!important}.formation{opacity:1;transform:none}}
+main{min-height:100vh;background:radial-gradient(ellipse at 50% 0%,#142b50,transparent 55%),#070b18}.nav{padding:22px 6%;display:flex;justify-content:space-between;border-bottom:1px solid #ffffff18}.brand{color:var(--cyan);font-weight:900;letter-spacing:.12em}.nav a{color:#d9e7ff;text-decoration:none}.hero{text-align:center;padding:90px 20px 70px;max-width:1050px;margin:auto}.kicker{color:var(--gold);letter-spacing:.3em;font-size:12px;font-weight:bold}h1{font-size:clamp(42px,8vw,84px);margin:18px 0;text-shadow:0 0 20px #36dfff55}h1 span{color:var(--cyan);text-shadow:0 0 25px #36dfff}.hero p{max-width:650px;margin:0 auto 28px;color:#b9c9e2;line-height:1.7}.cta,button{display:inline-block;border:0;border-radius:30px;padding:15px 28px;background:linear-gradient(90deg,#54eaff,#b2fbff);color:#07101e;font-weight:900;text-decoration:none;cursor:pointer}
+.content{max-width:950px;margin:auto;padding:20px 20px 90px}.panel{background:#101a2e;border:1px solid #3b587b;border-radius:22px;padding:clamp(22px,5vw,42px)}h2{text-align:center;margin:0 0 8px}.sub{text-align:center;color:#aebed5;margin:0 0 28px}form{display:grid;grid-template-columns:1fr 1fr;gap:17px}.field{display:flex;flex-direction:column;gap:8px}.full,button,#status{grid-column:1/-1}label{font-size:13px;color:#c9d8ed;font-weight:bold}input,select{padding:15px;border:1px solid #405675;border-radius:10px;background:#091326;color:white;font-size:15px}input:focus,select:focus{outline:2px solid var(--cyan)}button{border-radius:12px;font-size:16px}#status{text-align:center;min-height:20px;color:#a9f7ce;font-size:14px}footer{text-align:center;color:#7386a3;padding:25px;border-top:1px solid #ffffff12;font-size:13px}
+
+/* FESTOBOTICS content sections + scroll reveal */
+html{scroll-behavior:smooth;scroll-padding-top:85px}
+.nav{position:sticky;top:0;z-index:15;background:#080f20eF;backdrop-filter:blur(14px);align-items:center;gap:18px;flex-wrap:wrap}
+.navlinks{display:flex;gap:18px;flex-wrap:wrap;justify-content:flex-end}
+.navlinks a{font-size:12px;color:#bcd2ed;letter-spacing:.04em;transition:color .25s, text-shadow .25s}
+.navlinks a:hover{color:var(--cyan);text-shadow:0 0 12px var(--cyan)}
+.section{max-width:1080px;margin:0 auto;padding:70px 22px;scroll-margin-top:75px}
+.section-heading{text-align:center;margin-bottom:30px}
+.section-heading .eyebrow{color:var(--gold);font-size:11px;font-weight:800;letter-spacing:.28em;text-transform:uppercase}
+.section-heading h2{font-size:clamp(28px,4vw,42px);margin:10px 0;color:#f5fbff}
+.section-heading p{color:#aebed5;line-height:1.7;max-width:700px;margin:0 auto}
+.cards{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}
+.info-card{padding:25px;border-radius:20px;background:linear-gradient(145deg,#142541,#0b1427);border:1px solid #41618466;box-shadow:0 12px 35px #0003;transition:transform .35s,border-color .35s,box-shadow .35s}
+.info-card:hover{transform:translateY(-8px);border-color:#62f3ff99;box-shadow:0 18px 42px #22dfff18}
+.info-card .emoji{font-size:27px;margin-bottom:13px}.info-card h3{margin:0 0 10px;color:#f3f8ff;font-size:19px}.info-card p,.info-card li{color:#b4c5dd;line-height:1.7;font-size:14px}
+.info-card ul{padding-left:19px;margin:10px 0 0}
+.details-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:15px}
+.detail{padding:22px;border-radius:16px;background:#0e1a30;border:1px solid #385577;text-align:center}
+.detail small{display:block;color:#70efff;letter-spacing:.15em;font-weight:800;font-size:10px;margin-bottom:9px}.detail strong{font-size:17px;color:#fff}
+.prize-strip{display:grid;grid-template-columns:repeat(3,1fr);gap:15px}
+.prize{padding:25px 15px;text-align:center;border-radius:18px;background:linear-gradient(160deg,#26304a,#111a2d);border:1px solid #b68d4d66}.prize b{display:block;color:#ffdf83;font-size:20px;margin:8px 0}.prize span{font-size:13px;color:#bdcce0}
+.rules{max-width:850px;margin:auto;display:grid;gap:12px}.rule{display:flex;gap:14px;align-items:flex-start;padding:17px 20px;background:#101c31;border:1px solid #304968;border-radius:14px;color:#c5d4e8;line-height:1.6}.rule em{font-style:normal;color:#62f3ff;font-weight:900}
+.contact-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:15px}.contact-card{padding:22px;border-radius:16px;background:#101c31;border:1px solid #365372;text-align:center}.contact-card strong{display:block;color:#eafaff;margin:8px 0}.contact-card span{font-size:13px;color:#9fb4d0;overflow-wrap:anywhere}
+.reveal{opacity:0;transform:translateY(34px) scale(.985);transition:opacity .75s ease,transform .75s cubic-bezier(.2,.75,.25,1)}.reveal.visible{opacity:1;transform:translateY(0) scale(1)}
+.reveal.delay-1{transition-delay:.12s}.reveal.delay-2{transition-delay:.24s}.reveal.delay-3{transition-delay:.36s}
+.section-alt{background:radial-gradient(ellipse at 50% 0%,#15345a66,transparent 65%)}
+.form-note{font-size:12px;color:#8fa6c5;line-height:1.6}
+
+/* Clickable event cards and event-specific rule dialog */
+.event-group-title{grid-column:1/-1;color:var(--gold);font-size:13px;letter-spacing:.18em;text-transform:uppercase;margin:24px 0 0;padding-bottom:10px;border-bottom:1px solid #ffffff22}
+.info-card.event-card{cursor:pointer;position:relative;min-height:190px;text-align:left;color:inherit;width:100%;font:inherit}
+.info-card.event-card:focus-visible{outline:3px solid var(--cyan);outline-offset:4px}
+.event-card .click-hint{display:inline-block;margin-top:12px;color:var(--cyan);font-size:11px;font-weight:900;letter-spacing:.1em}
+.event-dialog{position:fixed;inset:0;z-index:60;display:none;align-items:center;justify-content:center;padding:18px;background:#020611d9;backdrop-filter:blur(10px)}
+.event-dialog.open{display:flex;animation:dialogFade .25s ease both}
+.event-dialog-panel{width:min(680px,100%);max-height:min(82vh,760px);overflow:auto;padding:clamp(22px,4vw,36px);border:1px solid #62f3ff77;border-radius:22px;background:linear-gradient(145deg,#172a48,#091326);box-shadow:0 25px 90px #000b,0 0 35px #31dfff22;animation:dialogRise .35s cubic-bezier(.2,.8,.2,1) both}
+.event-dialog-top{display:flex;align-items:flex-start;justify-content:space-between;gap:16px}
+.event-dialog-panel h3{font-size:clamp(24px,4vw,34px);margin:0 0 8px;color:#fff}
+.event-dialog-panel .dialog-kicker{font-size:11px;color:var(--gold);letter-spacing:.18em;font-weight:900;text-transform:uppercase}
+.event-dialog-panel p,.event-dialog-panel li{color:#c4d5eb;line-height:1.7;font-size:14px}
+.event-dialog-panel ul{padding-left:21px;margin:16px 0}
+.event-dialog-panel li{margin:8px 0}
+.dialog-close{flex:0 0 auto;border:1px solid #6e8baa;background:#0b1830;color:#fff;border-radius:50%;width:40px;height:40px;font-size:23px;line-height:1;cursor:pointer}
+.dialog-note{padding:13px 15px;border:1px solid #ffd76a55;border-radius:12px;background:#ffd76a0d;color:#ffe6a5!important;font-size:13px!important}
+@keyframes dialogFade{from{opacity:0}to{opacity:1}}@keyframes dialogRise{from{opacity:0;transform:translateY(25px) scale(.97)}to{opacity:1;transform:translateY(0) scale(1)}}
+body.dialog-open{overflow:hidden}
+
+@media(max-width:760px){.cards,.details-grid,.prize-strip,.contact-grid{grid-template-columns:1fr 1fr}.navlinks{width:100%;justify-content:center}.nav{justify-content:center}}
+@media(max-width:520px){.cards,.details-grid,.prize-strip,.contact-grid{grid-template-columns:1fr}.section{padding:52px 16px}.navlinks{gap:12px}.navlinks a{font-size:11px}}
+@media(prefers-reduced-motion:reduce){.reveal{opacity:1;transform:none;transition:none}html{scroll-behavior:auto}}
+
+@media(max-width:650px){form{grid-template-columns:1fr}.field,button,#status{grid-column:1}.scene{height:310px}.robot{transform:scale(.78);transform-origin:bottom left}.switch{right:4%}}
+@media(prefers-reduced-motion:reduce){#intro{display:none}}
+
+/* FESTOBOTICS '27 — Tamil cultural welcome intro */
+#intro{animation:introFade .55s ease 7.85s forwards}
+.welcome-robot{position:absolute;z-index:17;left:0;top:50%;width:166px;height:250px;opacity:0;transform:translate3d(-100vw,-50%,0);filter:drop-shadow(0 0 16px #4cefff);pointer-events:none;animation:robotWelcomeJourney 4.12s cubic-bezier(.2,.72,.25,1) .12s both}
+.robot-aura{position:absolute;left:-30px;right:-30px;bottom:3px;height:46px;border-radius:50%;background:radial-gradient(ellipse,#47eaff55,transparent 70%);filter:blur(5px)}
+.robot-antenna{position:absolute;left:80px;top:0;width:5px;height:19px;background:linear-gradient(#fff,#47eaff);border-radius:5px;box-shadow:0 0 9px #48eaff}
+.robot-antenna:after{content:"";position:absolute;left:-5px;top:-7px;width:15px;height:15px;border-radius:50%;background:#fff3ae;box-shadow:0 0 8px #fff3ae,0 0 17px #ffbf55}
+.robot-head{position:absolute;left:35px;top:17px;width:96px;height:72px;border:3px solid #c9fbff;border-radius:27px 27px 24px 24px;background:linear-gradient(145deg,#f1ffff 0%,#79c9dc 34%,#1d5074 76%,#112b49);box-shadow:inset 0 -8px 12px #071b36,0 0 16px #48eaff,0 0 34px #2b99c9}
+.robot-head:before,.robot-head:after{content:"";position:absolute;top:29px;width:8px;height:19px;border-radius:5px;background:#c8fcff;box-shadow:0 0 8px #62f5ff}.robot-head:before{left:-9px}.robot-head:after{right:-9px}
+.robot-eye{position:absolute;top:24px;width:11px;height:13px;border-radius:50%;background:#fff;box-shadow:0 0 8px #7af7ff,0 0 13px #7af7ff}.eye-left{left:24px}.eye-right{right:24px}
+.robot-smile{position:absolute;left:39px;top:47px;width:18px;height:8px;border-bottom:2px solid #e9ffff;border-radius:0 0 15px 15px}
+.robot-neck{position:absolute;left:72px;top:87px;width:22px;height:13px;background:linear-gradient(90deg,#285b78,#d9ffff,#285b78);border-radius:5px}
+.robot-body{position:absolute;left:27px;top:97px;width:112px;height:85px;border:3px solid #d5fcff;border-radius:22px 22px 15px 15px;background:linear-gradient(145deg,#e9ffff 0%,#6fb6cc 28%,#245274 68%,#112c4b);box-shadow:inset 0 -10px 15px #07172c,0 0 14px #46dfff}
+.robot-core{position:absolute;left:38px;top:19px;width:31px;height:31px;border-radius:50%;border:3px solid #bdfaff;background:radial-gradient(circle,#fff 0 8%,#66f3ff 20%,#2375a4 70%);box-shadow:0 0 12px #58f3ff,0 0 24px #4deaff}
+.robot-emblem{position:absolute;right:12px;top:25px;color:#ffe3a0;font-size:21px;text-shadow:0 0 8px #ffc85b}
+.robot-arm{position:absolute;z-index:4;top:108px;width:18px;height:70px;border:3px solid #d8ffff;border-radius:12px;background:linear-gradient(90deg,#255677,#c8faff,#32708f);transform-origin:9px 9px}
+.arm-left{left:18px;transform:rotate(34deg);animation:namasteLeft .42s ease 1.18s forwards}
+.arm-right{right:18px;transform:rotate(-34deg);animation:namasteRight .42s ease 1.18s forwards}
+.robot-hand{position:absolute;left:-2px;bottom:-8px;width:20px;height:24px;border-radius:10px;background:linear-gradient(90deg,#d5ffff,#4c9cbb);border:2px solid #dfffff}
+.robot-waist{position:absolute;left:35px;top:178px;width:96px;height:15px;border-radius:8px;background:linear-gradient(#f5ffff,#aeebf1 52%,#407e9d);border:2px solid #d7ffff}
+.robot-veshti{position:absolute;left:27px;top:186px;width:112px;height:46px;overflow:hidden;border:2px solid #fff5d4;border-radius:5px 5px 15px 15px;background:linear-gradient(110deg,#fff 0%,#f8f4e9 35%,#fff 55%,#e5e1d5 100%);box-shadow:0 0 10px #ffe8a3}
+.veshti-fold{position:absolute;inset:0;background:repeating-linear-gradient(90deg,transparent 0 17px,#d5d0c2 18px,#fff 21px,transparent 24px)}
+.veshti-border{position:absolute;left:0;right:0;bottom:0;height:7px;background:linear-gradient(90deg,#b47a25,#ffdf86,#fff0b8,#b47a25);box-shadow:0 0 8px #ffd76a}
+.robot-leg{position:absolute;top:229px;width:17px;height:13px;background:linear-gradient(90deg,#234d6e,#bdeef2,#255474);border-radius:0 0 6px 6px}
+.leg-left{left:58px}.leg-right{right:58px}
+.robot-foot{position:absolute;top:238px;width:35px;height:12px;border-radius:12px 12px 6px 6px;background:linear-gradient(#e9ffff,#397d9d);border:2px solid #caffff}
+.foot-left{left:43px}.foot-right{right:43px}
+.robot-shadow{position:absolute;left:16px;right:16px;bottom:-8px;height:13px;border-radius:50%;background:#0009;filter:blur(6px);z-index:-1}
+.welcome-bubble{position:absolute;z-index:19;left:calc(50% + 4px);top:calc(50% - 145px);max-width:min(390px,46vw);padding:17px 23px 15px;border:1px solid #ffe5a0;border-radius:22px 22px 22px 5px;background:linear-gradient(135deg,#17263b,#0a1428eF);box-shadow:0 0 18px #4cefff55,0 0 28px #ffc85b33;opacity:0;transform:translateY(16px) scale(.86);animation:bubbleWelcome 2.7s ease 1.18s both}
+.welcome-bubble:before{content:"";position:absolute;left:-9px;bottom:12px;width:16px;height:16px;background:#17263b;border-left:1px solid #ffe5a0;border-bottom:1px solid #ffe5a0;transform:rotate(45deg)}
+.welcome-bubble strong{display:block;color:#ffe19a;font-family:Arial,sans-serif;font-size:clamp(27px,4vw,43px);font-weight:900;line-height:1.15;text-shadow:0 0 14px #ffcb5b}
+.welcome-bubble span{display:block;margin-top:3px;color:#67edff;font-size:12px;font-weight:900;letter-spacing:.26em}
+.welcome-bubble small{display:block;margin-top:9px;color:#e7f3ff;font-size:clamp(10px,1.15vw,13px);line-height:1.45}
+.formation{animation:titlePull .78s cubic-bezier(.12,.85,.2,1) 4.24s forwards}
+.impact-ring{animation:impact .65s ease 4.88s both}
+.final-tagline{animation:taglineIn .45s ease 5.12s forwards}
+@keyframes robotWelcomeJourney{
+  0%{opacity:0;transform:translate3d(-100vw,-50%,0) scale(.82)}
+  10%{opacity:1}
+  25%{opacity:1;transform:translate3d(calc(50vw - 245px),-50%,0) scale(1)}
+  68%{opacity:1;transform:translate3d(calc(50vw - 245px),-50%,0) scale(1)}
+  100%{opacity:0;transform:translate3d(110vw,-50%,0) scale(.82)}
+}
+@keyframes namasteLeft{to{transform:rotate(72deg) translateX(8px)}}
+@keyframes namasteRight{to{transform:rotate(-72deg) translateX(-8px)}}
+@keyframes bubbleWelcome{
+  0%{opacity:0;transform:translateY(16px) scale(.86)}
+  12%,72%{opacity:1;transform:translateY(0) scale(1)}
+  100%{opacity:0;transform:translateY(-8px) scale(.94)}
+}
+@media(max-width:650px){
+ .welcome-robot{transform:translate3d(-100vw,-50%,0) scale(.75);transform-origin:top left}
+ @keyframes robotWelcomeJourney{
+  0%{opacity:0;transform:translate3d(-100vw,-50%,0) scale(.72)}
+  10%{opacity:1}
+  25%{opacity:1;transform:translate3d(calc(50vw - 155px),-50%,0) scale(.75)}
+  68%{opacity:1;transform:translate3d(calc(50vw - 155px),-50%,0) scale(.75)}
+  100%{opacity:0;transform:translate3d(110vw,-50%,0) scale(.72)}
+ }
+ .welcome-bubble{left:50%;top:calc(50% - 205px);max-width:82vw;padding:11px 15px 10px;transform:translateX(-50%) scale(.86);border-radius:16px}
+ .welcome-bubble:before{display:none}
+ .welcome-bubble strong{font-size:27px}.welcome-bubble span{font-size:10px}.welcome-bubble small{font-size:10px}
+ .led-run i{width:6px;height:6px}
+}
+@media(prefers-reduced-motion:reduce){.welcome-robot,.welcome-bubble{animation:none!important;opacity:1;transform:none}.formation{animation:none!important;opacity:1;transform:none}.impact-ring,.spark-field,.final-tagline{animation:none!important}}
+
+
+
+/* MOBILE LAYOUT FIX — keeps every section inside narrow phone viewports */
+html, body { width:100%; max-width:100%; overflow-x:clip; }
+body { min-width:320px; }
+main, nav, header, section, footer, .content, .panel { min-width:0; }
+img, video, iframe { max-width:100%; }
+.nav { min-width:0; }
+.navlinks { min-width:0; }
+.cards > *, .details-grid > *, .prize-strip > *, .contact-grid > * { min-width:0; }
+.info-card, .detail, .prize, .contact-card, .rule { overflow-wrap:anywhere; }
+input, select, textarea, button { max-width:100%; }
+
+@media (max-width:760px) {
+  .nav { flex-direction:column; align-items:center; justify-content:center; gap:12px; padding:16px 14px; }
+  .brand { text-align:center; font-size:15px; }
+  .navlinks { width:100%; display:flex; flex-wrap:wrap; justify-content:center; gap:9px 14px; }
+  .hero { width:100%; padding:64px 18px 54px; }
+  .section { width:100%; padding:58px 18px; }
+  .content { width:100%; padding:16px 14px 60px; }
+  .panel { width:100%; }
+}
+
+@media (max-width:520px) {
+  html { scroll-padding-top:130px; }
+  main { width:100%; overflow:hidden; }
+  .nav { position:sticky; top:0; padding:12px 10px; gap:10px; }
+  .navlinks { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); width:100%; gap:8px 5px; justify-items:stretch; }
+  .navlinks a { display:block; min-width:0; text-align:center; white-space:nowrap; font-size:10px; letter-spacing:0; padding:5px 1px; }
+  .hero { padding:52px 16px 44px; }
+  .kicker { font-size:9px; letter-spacing:.16em; line-height:1.7; }
+  h1 { font-size:clamp(38px,11vw,54px); line-height:1.05; margin:15px 0; }
+  .hero p { font-size:14px; line-height:1.65; }
+  .cta { max-width:100%; padding:14px 22px; font-size:13px; }
+  .section { padding:48px 14px; scroll-margin-top:132px; }
+  .section-heading { margin-bottom:23px; }
+  .section-heading .eyebrow { font-size:9px; letter-spacing:.18em; }
+  .section-heading h2 { font-size:clamp(25px,7.5vw,34px); line-height:1.15; }
+  .section-heading p { font-size:14px; line-height:1.6; padding:0 3px; }
+  .cards, .details-grid, .prize-strip, .contact-grid { grid-template-columns:minmax(0,1fr); gap:13px; }
+  .event-group-title { margin-top:16px; font-size:11px; letter-spacing:.14em; }
+  .info-card { width:100%; min-height:0; padding:20px 19px; border-radius:16px; }
+  .info-card h3 { font-size:18px; line-height:1.25; overflow-wrap:anywhere; }
+  .info-card p { font-size:13px; }
+  .detail, .prize, .contact-card { padding:20px 16px; }
+  .rule { padding:14px 13px; gap:10px; font-size:13px; }
+  .content { padding:10px 12px 48px; }
+  .panel { border-radius:16px; padding:22px 15px; }
+  .panel h2 { font-size:25px; line-height:1.2; }
+  .sub { font-size:13px; line-height:1.55; margin-bottom:22px; }
+  form { grid-template-columns:minmax(0,1fr); gap:14px; width:100%; }
+  .field, form > * { min-width:0; }
+  .field, .full, form button, #status { grid-column:1; }
+  label { font-size:13px; }
+  input, select { display:block; width:100%; min-width:0; padding:14px 12px; font-size:16px; }
+  form button { width:100%; min-height:49px; padding:14px 12px; font-size:14px; white-space:normal; }
+  .form-note { font-size:11px; }
+  .event-dialog { padding:9px; align-items:center; }
+  .event-dialog-panel { width:100%; max-width:100%; max-height:88dvh; padding:20px 15px; border-radius:17px; }
+  .event-dialog-panel h3 { font-size:24px; line-height:1.2; padding-right:6px; }
+  .event-dialog-panel p, .event-dialog-panel li { font-size:13px; line-height:1.6; }
+  .dialog-close { width:38px; height:38px; }
+  footer { padding:22px 14px; font-size:11px; line-height:1.5; }
+  .welcome-bubble { max-width:calc(100vw - 30px); width:max-content; }
+  .formation-wrap { width:100%; padding:0 14px; }
+  .formation { max-width:100%; gap:0; }
+  .letter-glyph { font-size:clamp(13px,4.6vw,23px); letter-spacing:-.07em; }
+  .letter-glyph.special { font-size:clamp(11px,3.5vw,18px); }
+  .final-tagline { top:calc(50% + 48px); padding:0 12px; font-size:8px; letter-spacing:.12em; }
+  .led-run i { width:5px; height:5px; }
+  .led-run.top { top:12px; }
+  .led-run.bottom { bottom:12px; }
+  .led-run.left { left:7px; }
+  .led-run.right { right:7px; }
+}
+
+@media (max-width:360px) {
+  .navlinks { grid-template-columns:repeat(4,minmax(0,1fr)); gap:6px 2px; }
+  .navlinks a { font-size:9px; }
+  .section { padding-left:12px; padding-right:12px; }
+  .content { padding-left:9px; padding-right:9px; }
+  .panel { padding-left:12px; padding-right:12px; }
+  .letter-glyph { font-size:clamp(12px,4.3vw,16px); }
+  .letter-glyph.special { font-size:11px; }
+}
+
+@media (max-height:560px) and (max-width:760px) {
+  .welcome-robot { transform-origin:top left; }
+  .welcome-bubble { top:calc(50% - 135px); }
+  .final-tagline { top:calc(50% + 42px); }
+}
+
+@media (hover:none) {
+  .info-card:hover { transform:none; box-shadow:0 12px 35px #0003; }
+}
+
+</style></head><body>
+<div id="intro" aria-label="FESTOBOTICS 27 Tamil cultural welcome intro">
+  <div class="intro-grid"></div>
+  <div class="corner-lights" aria-hidden="true"><div class="led-run top" id="ledTop"></div><div class="led-run bottom" id="ledBottom"></div><div class="led-run left" id="ledLeft"></div><div class="led-run right" id="ledRight"></div></div>
+  <div class="welcome-robot" id="welcomeRobot" aria-hidden="true">
+    <div class="robot-aura"></div>
+    <div class="robot-antenna"></div>
+    <div class="robot-head"><i class="robot-eye eye-left"></i><i class="robot-eye eye-right"></i><i class="robot-smile"></i></div>
+    <div class="robot-neck"></div>
+    <div class="robot-body"><i class="robot-core"></i><i class="robot-emblem">✦</i></div>
+    <div class="robot-arm arm-left"><i class="robot-hand"></i></div>
+    <div class="robot-arm arm-right"><i class="robot-hand"></i></div>
+    <div class="robot-waist"></div>
+    <div class="robot-veshti"><i class="veshti-fold"></i><i class="veshti-border"></i></div>
+    <div class="robot-leg leg-left"></div><div class="robot-leg leg-right"></div>
+    <div class="robot-foot foot-left"></div><div class="robot-foot foot-right"></div>
+    <div class="robot-shadow"></div>
+  </div>
+  <div class="welcome-bubble" id="welcomeBubble" aria-live="polite"><strong>வணக்கம்!</strong><span>VANAKKAM</span><small>FESTOBOTICS ’27-க்கு அன்புடன் வரவேற்கிறோம்</small></div>
+  <div class="formation-wrap"><div class="formation" id="formation" aria-label="FESTOBOTICS apostrophe 27"></div></div>
+  <div class="impact-ring"></div>
+  <div class="final-tagline">ROBOTICS&nbsp; • &nbsp;TECHNOLOGY&nbsp; • &nbsp;INNOVATION</div>
+  <div class="spark-field" id="sparkField" aria-hidden="true"></div>
+</div>
+<main><nav class="nav"><div class="brand">FESTOBOTICS ’27</div><div class="navlinks"><a href="#about">ABOUT</a><a href="#events">EVENTS</a><a href="#schedule">SCHEDULE</a><a href="#prizes">PRIZES</a><a href="#rules">RULES</a><a href="#contact">CONTACT</a><a href="#register">REGISTER ↗</a></div></nav>
+<header class="hero"><div class="kicker">ROBOTICS • TECHNOLOGY • INNOVATION</div><h1>Build. Create.<br><span>Innovate.</span></h1><p>Step into a world of ideas, robotics and technology. Join us at FESTOBOTICS ’27 and be part of the next wave of innovation.</p><a class="cta" href="#register">JOIN THE FESTIVAL</a></header>
+<section class="section section-alt" id="about"><div class="section-heading reveal"><div class="eyebrow">The vision</div><h2>About FESTOBOTICS ’27</h2><p>FESTOBOTICS ’27 is a celebration of robotics, engineering, creativity and emerging technology. A platform for curious minds to learn, build, compete and turn bold ideas into real-world innovations.</p></div><div class="cards"><article class="info-card reveal delay-1"><div class="emoji">🤖</div><h3>Explore Robotics</h3><p>Discover how robots, sensors and smart systems can solve real challenges.</p></article><article class="info-card reveal delay-2"><div class="emoji">⚡</div><h3>Show Your Skills</h3><p>Put your creativity, technical knowledge and teamwork to the test.</p></article><article class="info-card reveal delay-3"><div class="emoji">🚀</div><h3>Innovate Together</h3><p>Connect with fellow students, exchange ideas and build a brighter future.</p></article></div></section>
+<section class="section" id="events"><div class="section-heading reveal"><div class="eyebrow">Compete • Create • Conquer</div><h2>Events & Competitions</h2><p>Choose an event to view its rules and regulations. Tap any event card for details.</p></div><div class="cards">
+<div class="event-group-title reveal">Project Challenges</div>
+<article class="info-card event-card reveal" role="button" tabindex="0" data-event="tug"><div class="emoji">🪢</div><h3>Tug of War</h3><p>Team strategy, control and pulling power.</p><span class="click-hint">VIEW RULES ↗</span></article>
+<article class="info-card event-card reveal delay-1" role="button" tabindex="0" data-event="sumo"><div class="emoji">🤖</div><h3>Sumo</h3><p>Robot-versus-robot challenge in the arena.</p><span class="click-hint">VIEW RULES ↗</span></article>
+<article class="info-card event-card reveal delay-2" role="button" tabindex="0" data-event="mud"><div class="emoji">🏁</div><h3>Mud Race</h3><p>Take on a challenging terrain course.</p><span class="click-hint">VIEW RULES ↗</span></article>
+<div class="event-group-title reveal">Project Expo</div>
+<article class="info-card event-card reveal" role="button" tabindex="0" data-event="open"><div class="emoji">💡</div><h3>Open Innovation</h3><p>Present an original idea, prototype or technology-based innovation.</p><span class="click-hint">VIEW RULES ↗</span></article>
+<article class="info-card event-card reveal delay-1" role="button" tabindex="0" data-event="problem"><div class="emoji">🧩</div><h3>Problem–Solution Innovation</h3><p>Identify a real-world problem and demonstrate your innovative solution.</p><span class="click-hint">VIEW RULES ↗</span></article>
+</div></section>
+<div class="event-dialog" id="eventDialog" role="dialog" aria-modal="true" aria-labelledby="eventDialogTitle"><div class="event-dialog-panel"><div class="event-dialog-top"><div><div class="dialog-kicker" id="eventDialogKicker">Event rules</div><h3 id="eventDialogTitle">Event</h3></div><button class="dialog-close" type="button" aria-label="Close rules">×</button></div><div id="eventDialogBody"></div></div></div>
+<section class="section section-alt" id="schedule"><div class="section-heading reveal"><div class="eyebrow">Mark your calendar</div><h2>Event Date, Time & Venue</h2><p>Official schedule details will be announced by the organising team.</p></div><div class="details-grid"><div class="detail reveal"><small>EVENT DATE</small><strong>To be announced</strong></div><div class="detail reveal delay-1"><small>EVENT TIME</small><strong>To be announced</strong></div><div class="detail reveal delay-2"><small>VENUE</small><strong>To be announced</strong></div></div></section>
+<section class="section" id="prizes"><div class="section-heading reveal"><div class="eyebrow">Celebrate achievement</div><h2>Prizes & Certificates</h2><p>Recognising creativity, teamwork and technical excellence.</p></div><div class="prize-strip"><div class="prize reveal"><div class="emoji">🥇</div><b>1st Prize</b><span>Prize details to be announced</span></div><div class="prize reveal delay-1"><div class="emoji">🥈</div><b>2nd Prize</b><span>Prize details to be announced</span></div><div class="prize reveal delay-2"><div class="emoji">🏅</div><b>Participation</b><span>Certificates for eligible participants</span></div></div></section>
+<section class="section section-alt" id="rules"><div class="section-heading reveal"><div class="eyebrow">Play fair • Stay safe</div><h2>Rules & Regulations</h2><p>General guidelines for all participants. Event-specific rules will be shared by the organisers.</p></div><div class="rules"><div class="rule reveal"><em>01</em><span>Participants must complete the registration form with accurate details.</span></div><div class="rule reveal delay-1"><em>02</em><span>Carry your valid school or college ID card on the event day.</span></div><div class="rule reveal delay-2"><em>03</em><span>Follow the instructions given by event coordinators and judges.</span></div><div class="rule reveal"><em>04</em><span>Maintain discipline and handle equipment, tools and venue property responsibly.</span></div><div class="rule reveal delay-1"><em>05</em><span>Use of unsafe, hazardous or prohibited materials is not allowed.</span></div><div class="rule reveal delay-2"><em>06</em><span>The organisers' decision regarding event conduct and results will be final.</span></div></div></section>
+<section class="section" id="contact"><div class="section-heading reveal"><div class="eyebrow">We are here to help</div><h2>Contact the Organisers</h2><p>For registration, event and participation queries, contact the FESTOBOTICS organising team.</p></div><div class="contact-grid"><div class="contact-card reveal"><div class="emoji">📞</div><strong>Phone / WhatsApp</strong><span>Contact number to be added</span></div><div class="contact-card reveal delay-1"><div class="emoji">✉️</div><strong>Email</strong><span>Email address to be added</span></div><div class="contact-card reveal delay-2"><div class="emoji">📍</div><strong>Venue</strong><span>Venue address to be announced</span></div></div></section>
+<section class="content" id="register"><div class="panel reveal"><h2>Participant Registration</h2><p class="sub">Complete all required details to register for FESTOBOTICS ’27.</p>
+<form id="registrationForm" action="https://script.google.com/macros/s/AKfycbzWGmT07Jv104hymK3Juuj2Ay61wCbA6xYSNuM2GSIwAXtadLJQUKdeccyQgLRB9xBMkQ/exec" method="POST" target="submitFrame">
+<div class="field"><label for="name">Full Name</label><input id="name" name="name" placeholder="Enter your full name" required></div>
+<div class="field"><label for="mobile">Mobile Number</label><input id="mobile" name="mobile" type="tel" inputmode="numeric" pattern="[0-9]{10}" maxlength="10" placeholder="10-digit mobile number" required></div>
+<div class="field"><label for="email">Email Address</label><input id="email" name="email" type="email" placeholder="you@example.com" required></div>
+<div class="field"><label for="institution">School / College Name</label><input id="institution" name="institution" placeholder="Enter school or college name" required></div>
+<div class="field"><label for="grade">Class / Grade / Year</label><input id="grade" name="grade" placeholder="Example: Grade 10 / 1st Year" required></div>
+<div class="field"><label for="participantType">Participant Category</label><select id="participantType" name="participantType" required><option value="">Select category</option><option>School Student</option><option>College Student</option><option>Other</option></select></div>
+<div class="field"><label for="eventChoice">Interested Event</label><select id="eventChoice" name="eventChoice" required><option value="">Select an event</option><option>Tug of War</option><option>Sumo</option><option>Mud Race</option><option>Open Innovation (Project Expo)</option><option>Problem–Solution Innovation (Project Expo)</option><option>More than one / Not decided</option></select></div>
+<p class="form-note full">Please check your mobile number and email before submitting. The event team may contact you using these details.</p>
+<button id="submitBtn" type="submit">SUBMIT REGISTRATION</button><div id="status" role="status" aria-live="polite"></div></form>
+<iframe name="submitFrame" id="submitFrame" style="display:none" title="Registration submission"></iframe></div></section><footer>© 2027 FESTOBOTICS. All rights reserved.</footer></main>
+<script>
+// Build the exact FESTOBOTICS title wordmark for the Tamil welcome reveal.
+const titleText = "FESTOBOTICS'27";
+const formation = document.getElementById('formation');
+titleText.split('').forEach((ch,i)=>{
+  const slot=document.createElement('span');slot.className='letter-slot';
+  const glyph=document.createElement('span');glyph.className='letter-glyph'+(ch==="'"?' special':'');glyph.textContent=ch==="'"?'’':ch;
+  slot.appendChild(glyph);formation.appendChild(slot);
+});
+['ledTop','ledBottom','ledLeft','ledRight'].forEach(id=>{
+  const rail=document.getElementById(id);
+  for(let i=0;i<22;i++){const led=document.createElement('i');led.style.setProperty('--n',i);rail.appendChild(led)}
+});
+const sparkField=document.getElementById('sparkField');
+const burstPositions=[['12%','28%'],['25%','68%'],['50%','18%'],['76%','28%'],['88%','62%'],['68%','78%'],['34%','82%'],['92%','18%']];
+burstPositions.forEach((pos,i)=>{const b=document.createElement('i');b.className='burst';b.style.left=pos[0];b.style.top=pos[1];b.style.setProperty('--delay',(i*.22)+'s');sparkField.appendChild(b)});
+for(let i=0;i<95;i++){const c=document.createElement('i');c.className='confetti';c.style.setProperty('--x',(Math.random()*100)+'%');c.style.setProperty('--c',['#ff5c9b','#64f4ff','#ffe36e','#a77bff','#ffffff'][i%5]);c.style.setProperty('--r',(Math.random()*180)+'deg');c.style.setProperty('--delay',(Math.random()*1.8)+'s');sparkField.appendChild(c)}
+// The single welcome robot exits completely before fireworks begin.
+setTimeout(()=>document.getElementById('intro').classList.add('celebration'),5050);
+
+// Browser sound policy may block autoplay; sound starts on first visitor interaction if needed.
+let audioCtx=null,soundEnabled=false,soundTimers=[];
+const introStartedAt=performance.now();
+function tone(freq,start,duration,type='sine',volume=.07,endFreq=null){if(!audioCtx||!soundEnabled)return;const o=audioCtx.createOscillator(),g=audioCtx.createGain();o.type=type;o.frequency.setValueAtTime(freq,start);if(endFreq)o.frequency.exponentialRampToValueAtTime(endFreq,start+duration);g.gain.setValueAtTime(.0001,start);g.gain.exponentialRampToValueAtTime(volume,start+.025);g.gain.exponentialRampToValueAtTime(.0001,start+duration);o.connect(g);g.connect(audioCtx.destination);o.start(start);o.stop(start+duration+.04)}
+function noiseBurst(start,duration,volume=.09,cutoff=2200){if(!audioCtx||!soundEnabled)return;const n=Math.max(1,Math.floor(audioCtx.sampleRate*duration)),buf=audioCtx.createBuffer(1,n,audioCtx.sampleRate),d=buf.getChannelData(0);for(let i=0;i<n;i++)d[i]=(Math.random()*2-1)*(1-i/n);const src=audioCtx.createBufferSource(),f=audioCtx.createBiquadFilter(),g=audioCtx.createGain();src.buffer=buf;f.type='lowpass';f.frequency.value=cutoff;g.gain.setValueAtTime(volume,start);g.gain.exponentialRampToValueAtTime(.0001,start+duration);src.connect(f);f.connect(g);g.connect(audioCtx.destination);src.start(start)}
+function cue(at){tone(110,at,.22,'sine',.12,48);noiseBurst(at,.12,.09,900);tone(660,at+.05,.35,'triangle',.04,880)}
+function fanfare(at){[523,659,784,1046,1175,1318].forEach((n,i)=>{tone(n,at+i*.13,.34,'triangle',.055,n*1.02);tone(n*2,at+i*.13,.22,'sine',.018)});[0,.24,.48].forEach((d,i)=>tone([784,988,1175][i],at+.9+d,.65,'sine',.045))}
+function scheduleSound(){if(!audioCtx||!soundEnabled)return;const elapsed=(performance.now()-introStartedAt)/1000;[[.25,()=>tone(180,audioCtx.currentTime,.4,'sawtooth',.025,85)],[1.25,()=>cue(audioCtx.currentTime)],[4.35,()=>tone(105,audioCtx.currentTime,.32,'sine',.14,42)],[5.12,()=>fanfare(audioCtx.currentTime)],[5.35,()=>{for(let i=0;i<6;i++)setTimeout(()=>noiseBurst(audioCtx.currentTime,.38,.095,2800),i*105)}]].forEach(([t,fn])=>{if(t>=elapsed)soundTimers.push(setTimeout(fn,(t-elapsed)*1000))})}
+async function tryStartAudio(){if(soundEnabled)return;try{const AC=window.AudioContext||window.webkitAudioContext;if(!AC)return;if(!audioCtx)audioCtx=new AC();await audioCtx.resume();if(audioCtx.state!=='running')return;soundEnabled=true;scheduleSound();window.removeEventListener('pointerdown',tryStartAudio);window.removeEventListener('keydown',tryStartAudio);window.removeEventListener('touchstart',tryStartAudio)}catch(e){}}
+tryStartAudio();window.addEventListener('pointerdown',tryStartAudio,{once:true});window.addEventListener('keydown',tryStartAudio,{once:true});window.addEventListener('touchstart',tryStartAudio,{once:true});
+let vanakkamSpoken=false;
+function speakVanakkam(){if(vanakkamSpoken||!('speechSynthesis' in window))return;try{const u=new SpeechSynthesisUtterance('வணக்கம்!');u.lang='ta-IN';u.rate=.88;u.pitch=1.05;u.volume=1;const voices=window.speechSynthesis.getVoices();const tamilVoice=voices.find(v=>/^ta(-|_)/i.test(v.lang));if(tamilVoice)u.voice=tamilVoice;window.speechSynthesis.speak(u);vanakkamSpoken=true;}catch(e){}}
+setTimeout(speakVanakkam,1450);
+window.addEventListener('pointerdown',()=>{if(!vanakkamSpoken&&(performance.now()-introStartedAt)<5200)speakVanakkam()},{once:true});
+if('speechSynthesis' in window)window.speechSynthesis.onvoiceschanged=()=>{ /* wait for the welcome cue */ };
+const revealObserver=new IntersectionObserver(entries=>{entries.forEach(entry=>{if(entry.isIntersecting){entry.target.classList.add('visible');revealObserver.unobserve(entry.target)}})},{threshold:.14,rootMargin:'0px 0px -35px 0px'});document.querySelectorAll('.reveal').forEach(el=>revealObserver.observe(el));
+
+// Event cards open their individual rules in an accessible dialog.
+const eventRules={
+ tug:{title:'Tug of War',group:'Project Challenges',body:`<p>Official Tug of War event-specific rules have not been included in the organiser guideline PDF supplied to us.</p><p class="dialog-note">Rules, team size, robot specifications, match format and safety requirements: To be announced by the organisers.</p>`},
+ sumo:{title:'Sumo',group:'Project Challenges',body:`<p>Official Sumo event-specific rules have not been included in the organiser guideline PDF supplied to us.</p><p class="dialog-note">Robot dimensions, weight limits, arena specifications, match format and safety requirements: To be announced by the organisers.</p>`},
+ mud:{title:'Mud Race',group:'Project Challenges',body:`<p>Official Mud Race event-specific rules have not been included in the organiser guideline PDF supplied to us.</p><p class="dialog-note">Track layout, robot specifications, allowed modifications, match format and safety requirements: To be announced by the organisers.</p>`},
+ open:{title:'Open Innovation',group:'Project Expo',body:`<p>Present an original project, prototype or technology-based idea. The supplied FESTOBOTICS guidelines describe these project expo requirements:</p><ul><li>Each team must have 2–3 members from the same school.</li><li>Teams must register under one category: Primary (Grades 3–5), Junior (Grades 6–8) or Senior (Grades 9–12).</li><li>Projects should align with an innovation theme.</li><li>Abstract, pitch deck or project proposal (PDF/PPT, maximum 10 MB) may be uploaded optionally.</li><li>Actual hardware or robot video is not required for the preliminary round.</li><li>Work must be original. Plagiarism leads to disqualification.</li><li>For the final round, teams should bring their own laptops, chargers, project materials and accessories. No external or mentor help is allowed during validation.</li><li>Maximum operating voltage: 24V DC. Power adaptors and 230V AC mains are not allowed.</li><li>No sharp projections, explosives, flammable items or chemical substances are allowed.</li><li>Presentation: 5 minutes, followed by 5 minutes for demo and Q&A.</li><li>Presentation should cover the problem–solution statement, working principle, components and applications.</li></ul><p class="dialog-note">The uploaded guideline is for FESTOBOTICS 2026. Please confirm team eligibility, submission process and final-round requirements for the 2027 edition with the organisers.</p>`},
+ problem:{title:'Problem–Solution Innovation',group:'Project Expo',body:`<p>Identify a real-world problem and explain how your project or prototype addresses it. The supplied FESTOBOTICS guidelines describe these project expo requirements:</p><ul><li>Each team must have 2–3 members from the same school.</li><li>Teams must register under one category: Primary (Grades 3–5), Junior (Grades 6–8) or Senior (Grades 9–12).</li><li>Explain the problem, proposed solution, working principle, components and applications.</li><li>Abstract, pitch deck or project proposal (PDF/PPT, maximum 10 MB) may be uploaded optionally for the preliminary round.</li><li>Work must be original. Plagiarism leads to disqualification.</li><li>For the final round, teams should bring their own laptops, chargers, project materials and accessories. No external or mentor help is allowed during validation.</li><li>Maximum operating voltage: 24V DC. Power adaptors and 230V AC mains are not allowed.</li><li>No sharp projections, explosives, flammable items or chemical substances are allowed.</li><li>Presentation: 5 minutes, followed by 5 minutes for demo and Q&A.</li></ul><p class="dialog-note">The uploaded guideline is for FESTOBOTICS 2026. Please confirm team eligibility, submission process and final-round requirements for the 2027 edition with the organisers.</p>`}
+};
+const eventDialog=document.getElementById('eventDialog'),eventDialogTitle=document.getElementById('eventDialogTitle'),eventDialogKicker=document.getElementById('eventDialogKicker'),eventDialogBody=document.getElementById('eventDialogBody');
+function openEventRules(key){const item=eventRules[key];if(!item)return;eventDialogTitle.textContent=item.title;eventDialogKicker.textContent=item.group+' • Rules & Regulations';eventDialogBody.innerHTML=item.body;eventDialog.classList.add('open');document.body.classList.add('dialog-open');eventDialog.querySelector('.dialog-close').focus();}
+function closeEventRules(){eventDialog.classList.remove('open');document.body.classList.remove('dialog-open');}
+document.querySelectorAll('[data-event]').forEach(card=>{card.addEventListener('click',()=>openEventRules(card.dataset.event));card.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();openEventRules(card.dataset.event);}})});
+eventDialog.querySelector('.dialog-close').addEventListener('click',closeEventRules);
+eventDialog.addEventListener('click',e=>{if(e.target===eventDialog)closeEventRules()});
+document.addEventListener('keydown',e=>{if(e.key==='Escape'&&eventDialog.classList.contains('open'))closeEventRules()});
+
+const form=document.getElementById('registrationForm'),frame=document.getElementById('submitFrame'),statusBox=document.getElementById('status'),btn=document.getElementById('submitBtn');let waiting=false;
+form.addEventListener('submit',()=>{if(!form.reportValidity())return;waiting=true;btn.disabled=true;btn.textContent='SUBMITTING...';statusBox.textContent='Submitting your registration…';setTimeout(()=>{if(waiting){statusBox.textContent='Please confirm your registration with the event team if your details do not appear in the sheet.';btn.disabled=false;btn.textContent='SUBMIT REGISTRATION';waiting=false}},8000)});
+frame.addEventListener('load',()=>{if(!waiting)return;waiting=false;statusBox.textContent='Your registration has been submitted. Thank you!';btn.disabled=false;btn.textContent='SUBMIT REGISTRATION';form.reset()});
+</script></body></html>
